@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>自我介紹</title>
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+
+    <script src="libraries/p5.min.js"></script>
+    <script src="libraries/p5.sound.min.js"></script>
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: transparent;
+      }
+      img {
+        display: block;
+        max-width: 100%;
+        max-height: 100%;
+        width: auto;
+        height: auto;
+        object-fit: contain; /* 確保圖片完整顯示，並符合容器大小 */
+      }
+      /* 選單樣式 */
+      .menu {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        gap: 15px;
+      }
+
+      .menu li {
+        display: inline;
+      }
+
+      .menu a {
+        text-decoration: none;
+        color: #333;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 5px 10px;
+        border-radius: 5px;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .menu a:hover {
+        background-color: #809bce;
+        color: white;
+      }
+
+      #image-container {
+        position: fixed;
+        top: 10%;
+        left: 10%;
+        width: 80%;
+        height: 80%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+        z-index: 10;
+        overflow: hidden; /* 防止圖片超出容器 */
+      }
+
+      #image-container img {
+        max-width: 100%; /* 圖片寬度不超過容器 */
+        max-height: 100%; /* 圖片高度不超過容器 */
+        object-fit: contain; /* 確保圖片完整顯示，並保持比例 */
+        border: 2px solid white;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- 選單 -->
+    <ul class="menu" id="menu">
+      <li><a href="#home" onclick="hideIframe(); hideImage(); hideSubmenu()">首頁</a></li>
+      <li><a href="#" onclick="showImage('自我介紹.jpg'); hideIframe(); hideSubmenu()">自我介紹</a></li>
+      <li class="dropdown" onmouseover="showSubmenu()" onmouseout="hideSubmenu()">
+        <a href="#works" onclick="hideImage()">作品集</a>
+        <ul class="submenu" id="submenu">
+          <li><a href="#" onclick="showIframe('https://vivianpeng689.github.io/week2/'); hideImage(); hideSubmenu()">第一週</a></li>
+          <li><a href="#" onclick="showIframe('https://vivianpeng689.github.io/week4/'); hideImage(); hideSubmenu()">第二週</a></li>
+          <li><a href="#" onclick="showIframe('https://vivianpeng689.github.io/week3/'); hideImage(); hideSubmenu()">第三週</a></li>
+          <li><a href="#" onclick="showIframe('https://vivianpeng689.github.io/20250328/'); hideImage(); hideSubmenu()">第四週</a></li>
+        </ul>
+      </li>
+      <li><a href="#" onclick="showIframe('https://vivianpeng689.github.io/QA/'); hideImage(); hideSubmenu()">測驗卷</a></li>
+      <li><a href="#" onclick="showIframe('https://cfchen58.synology.me/%E7%A8%8B%E5%BC%8F%E8%A8%AD%E8%A8%882024/B2/week8/20250407_111447.mp4'); hideImage(); hideSubmenu()">教學影片</a></li>
+    </ul>
+
+    <!-- iframe -->
+    <iframe id="content-frame" src="" frameborder="0" style="display: none;"></iframe>
+
+    <img src="自我介紹.jpg" alt="自我介紹">
+
+    <div id="image-container" style="display: none;" onclick="hideImage()">
+      <img id="display-image" src="" alt="顯示圖片">
+    </div>
+
+    <script src="sketch.js"></script>
+
+    <script>
+      // 顯示 iframe 並載入指定的 URL
+      function showIframe(url) {
+        const iframe = document.getElementById('content-frame');
+        iframe.src = url;
+        iframe.style.display = 'block'; // 顯示 iframe
+      }
+
+      // 隱藏 iframe
+      function hideIframe() {
+        const iframe = document.getElementById('content-frame');
+        iframe.style.display = 'none'; // 隱藏 iframe
+        iframe.src = ''; // 清空 iframe 的內容
+      }
+
+      // 顯示圖片
+      function showImage(src) {
+        const imageContainer = document.getElementById('image-container');
+        const displayImage = document.getElementById('display-image');
+        displayImage.src = src;
+        imageContainer.style.display = 'flex'; // 顯示圖片容器
+      }
+
+      // 隱藏圖片
+      function hideImage() {
+        const imageContainer = document.getElementById('image-container');
+        imageContainer.style.display = 'none'; // 隱藏圖片容器
+      }
+
+      // 隱藏子選單
+      function hideSubmenu() {
+        const submenu = document.getElementById('submenu');
+        submenu.style.display = 'none'; // 隱藏子選單
+      }
+
+      // 動態顯示或隱藏選單
+      document.addEventListener('mousemove', (event) => {
+        const menu = document.getElementById('menu');
+        if (event.clientY < 250) {
+          menu.style.display = 'flex'; // 顯示選單
+        } else {
+          menu.style.display = 'none'; // 隱藏選單
+        }
+      });
+    </script>
+  </body>
+</html>
